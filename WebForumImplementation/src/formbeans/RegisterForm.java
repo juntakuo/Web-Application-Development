@@ -1,0 +1,58 @@
+/* Student Name: Tsu-Hao Kuo
+ * andrewID: tkuo
+ * Date: Mar. 2, 2013
+ * Course number: 08764/15637/15437 
+ */
+
+package formbeans;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.mybeans.form.FormBean;
+
+public class RegisterForm extends FormBean {
+	private String firstName;
+	private String lastName;
+	private String userName;
+	private String password;
+	private String confirm ;
+	private String userEmail;
+	
+	public String getFirstName() { return firstName; }
+	public String getLastName()  { return lastName;  }
+	public String getUserName()  { return userName;  }
+	public String getPassword()  { return password;  }
+	public String getConfirm()   { return confirm;   }
+	public String getUserEmail()  { return userEmail; }
+	
+	public void setFirstName(String s) { firstName = trimAndConvert(s,"<>\"");  }
+	public void setLastName(String s)  { lastName  = trimAndConvert(s,"<>\"");  }
+	public void setUserName(String s)  { userName  = trimAndConvert(s,"<>\"");  }
+	public void setPassword(String s)  { password  = s.trim();                  }
+	public void setConfirm(String s)   { confirm   = s.trim();                  }
+	public void setUserEmail(String s) { userEmail = trimAndConvert(s,"<>\"");  }
+
+	public List<String> getValidationErrors() {
+		List<String> errors = new ArrayList<String>();
+
+		if (firstName == null || firstName.trim().length() == 0) { errors.add("First Name is required");       }
+		if (lastName == null || lastName.trim().length() == 0)   { errors.add("Last Name is required");        }
+		if (userName == null || userName.trim().length() == 0)   { errors.add("User Name is required");        }
+		if (password == null || password.trim().length() == 0)   { errors.add("Password is required");         }
+		if (confirm == null || confirm.trim().length() == 0)     { errors.add("Confirm Password is required"); }
+		if (userEmail == null || userEmail.trim().length() == 0) { errors.add("Email address is required!");   }
+        else if (!userEmail.matches("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")) 
+    		errors.add("Invalid email address");
+		
+		if (errors.size() > 0) {
+			return errors;
+		}
+		
+		if (!password.equals(confirm)) {
+			errors.add("Passwords are not the same");
+		}
+		
+		return errors;
+	}
+}
